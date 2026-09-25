@@ -1,0 +1,12 @@
+オイルタブレット       → b5b2d9c0ccdedaafc4
+シェルプレート        → bcaad9ccdfdab0c4
+チップ            → c1afccdf
+ドラゴンリキッド       → c4ded7badeddd8b7afc4de
+
+디스크 검색...
+   オイルタブレット       COMMON.DAT:00C924
+   シェルプレート        COMMON.DAT:00C930
+   チップ            COMMON.DAT:00C8DD
+
+RAM:
+총 3건

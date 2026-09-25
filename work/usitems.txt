@@ -1,0 +1,180 @@
+JP 180개 / US 177개
+  0  00C8D8 ｳﾞｧﾄﾞﾁｯﾌﾟ      | Blast Chip          
+  1  00C8E4 ｳﾞｧﾃﾞﾑﾁｯﾌﾟ     | Dual Blast Chip       ★자리초과 16>12
+  2  00C8F0 ｳﾞｧﾀﾞｽﾞﾑﾁｯﾌﾟ   | Tri-Blast Chip      
+  3  00C900 ﾌﾗｯｼｭ          | Flash Chip            ★자리초과 11>8
+  4  00C908 ﾌﾞﾙｰｸﾞﾗｽ       | Elixir Minor          ★자리초과 13>12
+  5  00C914 ﾌﾞﾙｰﾏﾅ         | Berserk Micro         ★자리초과 14>8
+  6  00C91C ﾁｯﾌﾟ           | Dinys Chip            ★자리초과 11>8
+  7  00C924 ｵｲﾙﾀﾌﾞﾚｯﾄ      | Stolarium           
+  8  00C930 ｼｪﾙﾌﾟﾚｰﾄ       | Shell Plate         
+  9  00C93C ﾚﾝｽﾞ           | Gipson Lens           ★자리초과 12>8
+ 10  00C944 ﾘｱｸﾀｰ          | Bone Slasher          ★자리초과 13>8
+ 11  00C94C ｲﾝｽﾋﾟﾚｰﾀｰ      | Olfactory Lobe        ★자리초과 15>12
+ 12  00C958 ｼﾞｬﾝｸﾌｧﾝ       | Albertson Fan         ★자리초과 14>12
+ 13  00C964 ｼﾞｬﾝｸﾃﾞｨｸﾞ     | Nando Drill         
+ 14  00C970 ｼﾞｪﾑｽﾄｰﾝ       | Gem Stone           
+ 15  00C97C ｸｰﾘｱｽﾞﾀﾞﾝ      | Coolia's Dung         ★자리초과 14>12
+ 16  00C988 ｶﾞﾗ            | Gara                  ★자리초과 5>4
+ 17  00C98C ﾊﾇﾏﾝｼｪﾙ        | Golia Shell           ★자리초과 12>8
+ 18  00C994 ﾊﾇﾏﾝﾌｧﾝｸﾞ      | Golia Fang          
+ 19  00C9A0 ﾊﾇﾏﾝﾃｲﾙ        | Golia Tail            ★자리초과 11>8
+ 20  00C9A8 ﾊﾇﾏﾝﾎﾟｯﾄﾞ      | Golia Pod           
+ 21  00C9B4 ｼﾞｬﾝｸｽﾞｯｸ      | Relic - Shoes         ★자리초과 14>12
+ 22  00C9C0 ｻﾞｱﾙﾅｯﾂ        | Zaal Nuts             ★자리초과 10>8
+ 23  00C9C8 ﾗﾝﾌﾟｵｲﾙ        | Lamp Oil              ★자리초과 9>8
+ 24  00C9D0 ｼﾞｪﾑﾚﾝｽﾞ       | Gem Lens            
+ 25  00C9DC ｸﾞﾚｲｽﾘﾝｸﾞ      | Amirkhan Ring         ★자리초과 14>12
+ 26  00C9E8 ｿﾞｱﾊｰﾍﾞｽﾄ      | Zoah Harvest          ★자리초과 13>12
+ 27  00C9F4 ﾏｸﾗﾙﾘｷｯﾄﾞ      | Macral Liquid         ★자리초과 14>12
+ 28  00CA00 ﾏｸﾗﾝｼｪﾙ        | Macral Shell          ★자리초과 13>8
+ 29  00CA08 ﾏｸﾗﾝﾐｰﾄ        | Ascuncion Meat        ★자리초과 15>8
+ 30  00CA10 ﾘｷｭｱｱｰﾏｰ       | Feener Armor          ★자리초과 13>12
+ 31  00CA1C ﾘｷｭｱﾝｱｲｽﾞ      | Lickuern Eyes         ★자리초과 14>12
+ 32  00CA28 ﾘｷｭｱﾕﾆｯﾄ       | Lindstrum Unit        ★자리초과 15>12
+ 33  00CA34 ｼﾞｬﾝｸﾊﾟｰﾂ      | Relic - Weaponry      ★자리초과 17>12
+ 34  00CA40 ｼﾞｬﾝｸｼｰﾙﾄﾞ     | Relic - Armor         ★자리초과 14>12
+ 35  00CA4C ｼﾞｬﾝｸｴﾝｼﾞﾝ     | Relic - Engine        ★자리초과 15>12
+ 36  00CA58 ﾏｸﾗﾝｼﾞｭｴﾙ      | Macran Jewel          ★자리초과 13>12
+ 37  00CA64 ｲｴﾛｰｸﾞﾗｽ       | Elixir Medis          ★자리초과 13>12
+ 38  00CA70 ﾚｯﾄﾞｸﾞﾗｽ       | Elixir Maxis          ★자리초과 13>12
+ 39  00CA7C ｴｸｾﾙｸﾞﾗｽ       | Full Elixir         
+ 40  00CA88 ｲｴﾛｰﾏﾅ         | Berserk Minor         ★자리초과 14>8
+ 41  00CA90 ﾚｯﾄﾞﾏﾅ         | Berserk Medis         ★자리초과 14>8
+ 42  00CA98 ｴｸｾﾙﾏﾅ         | Berserk Maxis         ★자리초과 14>8
+ 43  00CAA0 ﾈｸﾀｰﾙ          | Ambrosia              ★자리초과 9>8
+ 44  00CAA8 ｽﾀﾝｸﾘｱ         | Revive              
+ 45  00CAB0 ﾎﾟｲｽﾞﾝｸﾘｱ      | Antidote            
+ 46  00CABC ｵｰﾙｸﾘｱ         | Recover             
+ 47  00CAC4 ﾂｧｰﾉｽﾁｯﾌﾟ      | Shield Chip         
+ 48  00CAD0 ﾘｭｰｳﾞﾁｯﾌﾟ      | Power Chip          
+ 49  00CADC ﾂｧｵﾁｯﾌﾟ        | Armor Chip            ★자리초과 11>8
+ 50  00CAE4 ﾘｭｰﾘｱﾁｯﾌﾟ      | Speed Chip          
+ 51  00CAF0 ｽﾛｳｸﾘｱ         | Restore Speed         ★자리초과 14>8
+ 52  00CAF8 ｽﾄｯﾌﾟｸﾘｱ       | Free Action         
+ 53  00CB04 ﾍﾟｲﾝｸﾘｱ        | Anesthetic            ★자리초과 11>8
+ 54  00CB0C ﾊﾞｲﾝﾄﾞｸﾘｱ      | Unbind              
+ 55  00CB18 ｶﾞﾗｺｳｾｷ        | Telepathy Shard       ★자리초과 16>8
+ 56  00CB20 NOTEQUIP       | NOTEQUIP            
+ 57  00CB2C ﾊｲﾊﾟﾜｰ         | High Vulcan           ★자리초과 12>8
+ 58  00CB34 ﾊｲﾊﾞﾙｶﾝ        | Mauler              
+ 59  00CB3C ｴｸｽﾄﾘｰﾑ        | Pulverizer            ★자리초과 11>8
+ 60  00CB44 ﾊﾞｰｻｰｸﾘｯﾁ      | Berserk Vampire       ★자리초과 16>12
+ 61  00CB50 ﾊﾞｰｻｰｸｴｲﾄﾞ     | Berserk Leech         ★자리초과 14>12
+ 62  00CB5C ｽﾅｲﾊﾟｰ         | Sniper              
+ 63  00CB64 ﾜｲﾄﾞ           | Tri-Burst             ★자리초과 10>8
+ 64  00CB6C ｸﾘﾃｨｶﾙ         | Assassin              ★자리초과 9>8
+ 65  00CB74 HPMAX          | HPMAX               
+ 66  00CB7C BPMAX          | BPMAX               
+ 67  00CB84 NORMAL         | NORMAL              
+ 68  00CB8C NOENEMY        | NOENEMY             
+ 69  00CB94 HPBPMAX        | HPBPMAX             
+ 70  00CB9C DONTRUN        | DONTRUN             
+ 71  00CBA4 TWICE          | TWICE               
+ 72  00CBAC EQUIPGUN       | EQUIPGUN            
+ 73  00CBB8 TYPEMISS       | TYPEMISS            
+ 74  00CBC4 NOBP           | NOBP                
+ 75  00CBCC NOGAUGE        | NOGAUGE             
+ 76  00CBD4 ｶﾑｾｷ           | ����                
+ 77  00CBDC ﾌﾟﾛﾃｸﾄｷｰ1      | Protect Key 1         ★자리초과 14>12
+ 78  00CBE8 ﾌﾟﾛﾃｸﾄｷｰ2      | Protect Key 2         ★자리초과 14>12
+ 79  00CBF4 ﾌﾟﾛﾃｸﾄｷｰ3      | Protect Key 3         ★자리초과 14>12
+ 80  00CC00 ﾄﾞｰﾑｹﾞｰﾄｷｰ     | Dome Gate Key         ★자리초과 14>12
+ 81  00CC0C ｹﾞｰﾄｷｰ1        | Gate Key 1            ★자리초과 11>8
+ 82  00CC14 ｹﾞｰﾄｷｰ2        | Gate Key 2            ★자리초과 11>8
+ 83  00CC1C ｹﾞｰﾄｷｰ3        | Gate Key 3            ★자리초과 11>8
+ 84  00CC24 ﾄﾞﾗｺﾞﾝﾚﾘｰﾌ     | Dragon Crest          ★자리초과 13>12
+ 85  00CC30 Dﾕﾆｯﾄ01        | D Unit 01             ★자리초과 10>8
+ 86  00CC38 Dﾕﾆｯﾄ02        | D Unit 02             ★자리초과 10>8
+ 87  00CC40 Dﾕﾆｯﾄ03        | D Unit 03             ★자리초과 10>8
+ 88  00CC48 Dﾕﾆｯﾄ04        | D Unit 04             ★자리초과 10>8
+ 89  00CC50 Dﾕﾆｯﾄ05        | D Unit 05             ★자리초과 10>8
+ 90  00CC58 Dﾕﾆｯﾄ06        | D Unit 06             ★자리초과 10>8
+ 91  00CC60 Dﾕﾆｯﾄ07        | D Unit 07             ★자리초과 10>8
+ 92  00CC68 Dﾕﾆｯﾄ08        | D Unit 08             ★자리초과 10>8
+ 93  00CC70 Dﾕﾆｯﾄ09        | D Unit 09             ★자리초과 10>8
+ 94  00CC78 Dﾕﾆｯﾄ10        | D Unit 10             ★자리초과 10>8
+ 95  00CC80 Dﾕﾆｯﾄ11        | D Unit 11             ★자리초과 10>8
+ 96  00CC88 Dﾕﾆｯﾄ12        | D Unit 12             ★자리초과 10>8
+ 97  00CC90 ﾀﾞﾐｰ272        | ����272             
+ 98  00CC98 ﾛｯﾄﾎﾟﾚﾝ        | Kuo Pollen            ★자리초과 11>8
+ 99  00CCA0 ｺﾞﾙﾄﾞﾝｼｰﾄﾞ     | Villatuya Fruit       ★자리초과 16>12
+100  00CCAC ﾄﾞﾗｺﾞﾝﾌﾞｰｽﾀ    | Dragon Booster        ★자리초과 15>12
+101  00CCB8 ﾜｰﾙﾄﾞﾏｯﾌﾟ      | World Map           
+102  00CCC4 ｲﾝﾍﾟﾆｱｺｲﾝ      | Inpenia Coin          ★자리초과 13>12
+103  00CCD0 ﾍﾟﾝﾀﾞﾝﾄ        | �������             
+104  00CCD8 ﾋﾟｸﾁｬｰﾎﾞｰﾄﾞ    | Picture Board         ★자리초과 14>12
+105  00CCE4 ｼｯﾌﾟﾊﾟｰﾂ       | Ship Parts          
+106  00CCF0 ﾊﾟｽ            | Pass                  ★자리초과 5>4
+107  00CCF4 ﾃﾝﾌﾟﾙｷｰ        | Temple Key            ★자리초과 11>8
+108  00CCFC ﾊﾝﾄﾞｶﾞﾝ        | Hand Gun              ★자리초과 9>8
+109  00CD04 ｴﾚﾍﾞｰﾀ-ｷｰ      | Elevator Key          ★자리초과 13>12
+110  00CD10 ﾚﾀｰ1           | Letter 1              ★자리초과 9>8
+111  00CD18 ﾚﾀｰ2           | Letter 2              ★자리초과 9>8
+112  00CD20 ｼｰｶｰﾏｯﾌﾟ       | Seeker Map          
+113  00CD2C ｼｯﾌﾟﾊﾟｰﾂ?      | Junk                
+114  00CD38 ｶﾞﾗｸﾀ          | Verato Pipe           ★자리초과 12>8
+115  00CD40 ｳﾞｪﾗﾄﾊﾟｲﾌﾟ     | Tobitama Rock         ★자리초과 14>12
+116  00CD4C ﾄﾋﾞﾀﾏｲｼ        | Large Gun             ★자리초과 10>8
+117  00CD54 ﾗｰｼﾞｶﾞﾝ        | Bible 1             
+118  00CD5C ﾊﾞｲﾌﾞﾙ1        | Bible 2             
+119  00CD64 ﾊﾞｲﾌﾞﾙ2        | Dragon Bible          ★자리초과 13>8
+120  00CD6C ﾄﾞﾗｺﾞﾝﾊﾞｲﾌﾞﾙ   | Soldier Guide       
+121  00CD7C ｿﾙｼﾞｬｰｶﾞｲﾄﾞ    | Base Manual         
+122  00CD88 ﾍﾞｰｽﾏﾆｭｱﾙ      | Tower Report 1        ★자리초과 15>12
+123  00CD94 ﾀﾜｰﾚﾎﾟｰﾄ1      | Ship Report         
+124  00CDA0 ｼｯﾌﾟﾚﾎﾟｰﾄ      | Memory Report         ★자리초과 14>12
+125  00CDAC ﾒﾓﾘｰﾚﾎﾟｰﾄ      | Zoah Bible          
+126  00CDB8 ｿﾞｱﾊﾞｲﾌﾞﾙ      | Dragon Book 1         ★자리초과 14>12
+127  00CDC4 ﾄﾞﾗｺﾞﾝﾌﾞｯｸ1    | Dragon Book 2         ★자리초과 14>12
+128  00CDD0 ﾄﾞﾗｺﾞﾝﾌﾞｯｸ2    | Dragon Book 3         ★자리초과 14>12
+129  00CDDC ﾄﾞﾗｺﾞﾝﾌﾞｯｸ3    | ��������            
+130  00CDE8 ﾊﾞﾄﾙﾒﾓﾘｰ       | Palmer Amulet         ★자리초과 14>12
+131  00CDF4 ﾋﾟｰｽｼｪﾙ        | ��������              ★자리초과 9>8
+132  00CDFC ﾍﾟｯﾄﾌｰﾄﾞ       | Old Diary           
+133  00CE08 ﾗﾝﾃﾞｨﾚﾎﾟｰﾄ     | Aronak Unit         
+134  00CE14 ｻｳﾝﾄﾞﾕﾆｯﾄ      | ���                 
+135  00CE20 ﾃﾝﾄ            | ����                  ★자리초과 5>4
+136  00CE24 ｻﾞｯｸ           | ����������            ★자리초과 11>8
+137  00CE2C ﾄﾞﾛｰﾝﾚﾎﾟｰﾄ     | Paet's Report         ★자리초과 14>12
+138  00CE38 ﾊﾟｴｯﾄﾉｰﾄ       | Recorder            
+139  00CE44 ﾚｺｰﾀﾞｰ         | Dragon Report         ★자리초과 14>8
+140  00CE4C ﾄﾞﾗｺﾞﾝﾚﾎﾟｰﾄ    | Tower Report 2        ★자리초과 15>12
+141  00CE58 ﾀﾜｰﾚﾎﾟｰﾄ2      | Tower Report 3        ★자리초과 15>12
+142  00CE64 ﾀﾜｰﾚﾎﾟｰﾄ3      | Leader's Note         ★자리초과 14>12
+143  00CE70 ﾘｰﾀﾞｰｽﾞﾉｰﾄ     | Phantom Slashers      ★자리초과 17>12
+144  00CE7C ｻﾞﾑﾄ           | Wraith Slashers       ★자리초과 16>8
+145  00CE84 ｻﾞﾑﾊﾙﾄ         | Onslaught             ★자리초과 10>8
+146  00CE8C ｻﾞﾑｸﾚｰﾄ        | Vengeance Orbs        ★자리초과 15>8
+147  00CE94 ﾊﾝｳﾞｫﾙｸﾞ       | Judgement Day         ★자리초과 14>12
+148  00CEA0 ｳﾞｧﾃﾞﾑ         | Armageddon            ★자리초과 11>8
+149  00CEA8 ｳﾞｧﾀﾞｽﾞﾑ       | Cleansing Wave        ★자리초과 15>12
+150  00CEB4 ｱﾊﾞｯﾂ          | Dragon Phoenix        ★자리초과 15>8
+151  00CEBC ﾌﾚｲｽｶﾛｽ        | Prism Laser           ★자리초과 12>8
+152  00CEC4 ﾀﾞﾛﾙｴﾝﾃﾞ       | Assault Wing          ★자리초과 13>12
+153  00CED0 ﾘｭｰｳﾞ          | Plasma Vortex         ★자리초과 14>8
+154  00CED8 ｶﾞﾉｰｸ          | Lightning Storm       ★자리초과 16>8
+155  00CEE0 ｷﾞﾘｨｸ          | Plasma Swarm          ★자리초과 13>8
+156  00CEE8 ﾌﾗｵ            | Berserker Rage        ★자리초과 15>4
+157  00CEEC ﾋﾞｸｼｵﾏ         | Laser Storm           ★자리초과 12>8
+158  00CEF4 ﾗｸﾏｷﾞｵ         | Chain Laser           ★자리초과 12>8
+159  00CEFC ﾀﾞﾛﾙ           | Holy Sphere           ★자리초과 12>8
+160  00CF04 ｳﾞｧﾄﾞ          | Hunting Scythe        ★자리초과 15>8
+161  00CF0C ﾚｳｺ            | Astral Phantoms       ★자리초과 16>4
+162  00CF10 ﾃﾞｱﾄｩﾌﾟ        | Energy Prism          ★자리초과 13>8
+163  00CF18 ﾛﾄﾞｸ           | Shield              
+164  00CF20 ﾂｧｰﾉｽ          |                     
+165  00CF28                | Heal                  ★자리초과 5>4
+166  00CF2C ﾒﾘﾄ            | Heal-Maxis            ★자리초과 11>4
+167  00CF30 ﾒﾘｿﾅ           | Genesis             
+168  00CF38 ﾒﾘｵｸｽ          | Berserker Wing        ★자리초과 15>8
+169  00CF40 ｴｸｴﾗ           | Protection Wing       ★자리초과 16>8
+170  00CF48 ｹﾄｷｽ           | Swift Wing            ★자리초과 11>8
+171  00CF50 ﾂｧｵ            | Escape                ★자리초과 7>4
+172  00CF54 ﾘｭｰﾘｱ          | Healing Wing          ★자리초과 13>8
+173  00CF5C ﾗﾃｵ            | Field Map             ★자리초과 10>4
+174  00CF60 ｹﾐﾄﾏ           | ����956             
+175  00CF68 ﾌｨｰﾙﾄﾞﾏｯﾌﾟ     | ����961             
+176  00CF74 ﾀﾞﾐｰ956        | J�                
+
+자리 초과 121 / 177
