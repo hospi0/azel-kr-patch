@@ -67,7 +67,9 @@ def main():
 
     R0 = 'F:/hospi/roms/ss roms/azel'
     D1 = 'Azel - Panzer Dragoon RPG (Japan) (Disc 1) (2M)'
-    iso0 = Iso('%s/%s (Track 1).bin' % (R0, D1))
+    # (2026-11-15) `--disc <구운 Track1>` 을 주면 그 디스크의 패치된 기본 폰트로 만들고 그 디스크에 쓴다(여러 번 가능)
+    discs = [sys.argv[i + 1] for i, a in enumerate(sys.argv) if a == '--disc']
+    iso0 = Iso(discs[0] if discs else '%s/%s (Track 1).bin' % (R0, D1))
     e0 = {p.lstrip('/'): (l, s) for p, l, s in iso0.walk() if not p.endswith('/')}
     com = iso0.read(*e0['COMMON.DAT'])
 
@@ -165,11 +167,13 @@ def main():
     if not write:
         print('(파일만 만들었다 — 디스크에 쓰려면 --write)')
         return
-    for f in ['Azel - Panzer Dragoon RPG (Japan) (Disc 1) (2M)',
+    targets = discs or ['%s/%s (Track 1).bin' % (R0, f) for f in [
+              'Azel - Panzer Dragoon RPG (Japan) (Disc 1) (2M)',
               'Azel - Panzer Dragoon RPG (Japan) (Disc 2) (2M)',
               'Azel - Panzer Dragoon RPG (Japan) (Disc 3) (2M)',
-              'Azel - Panzer Dragoon RPG (Japan) (Disc 4) (2M, 3M)']:
-        dst = '%s/%s (Track 1).bin' % (R0, f)
+              'Azel - Panzer Dragoon RPG (Japan) (Disc 4) (2M, 3M)']]
+    for dst in targets:
+        f = os.path.basename(dst)
         iso = Iso(dst)
         ents = {p.lstrip('/'): (l, s) for p, l, s in iso.walk() if not p.endswith('/')}
         if SCB not in ents:

@@ -71,7 +71,7 @@ def main():
             if want is None:
                 skip += 1
                 continue
-            raw = raw[:len(want)]
+            raw = data[off:off + len(want)]   # 이어 읽는 짝(_chain_pad)은 기대값이 예산보다 길다
             if raw == want:
                 same += 1
                 if len(examples) < 4:

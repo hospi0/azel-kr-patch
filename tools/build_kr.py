@@ -355,6 +355,20 @@ def build_charmap(ko_by_id, places_by_id, fnt_sizes, jp_of, budget_of):
     if forced:
         must_base.update(forced)
         print('기본 폰트 강제 배정: %s' % ' '.join(forced))
+    # ★2026-11-15 아이템·버서크 이름 한글(itemname_kr): 이름은 어느 화면에서나 그려지므로 기본 폰트에.
+    #   이 글자들은 대사 쪽 단위에 없어도 기본 폰트 칸을 차지해야 한다 → freq 에도 올려 배정 대상에 넣는다.
+    import itemname_kr
+    _ic = set()   # (2026-11-15) 이름 음절은 기본 폰트에 강제하지 않는다 — 없는 것은 이름 전용 글꼴(IP.BIN 뒤)로
+    # ★2026-11-15 하스피 «이름입력에 피 자가 없어졌다»: 이름 입력 격자는 기본 폰트 글자로만 채워진다.
+    #   빈도 배정이 바뀌면 이름에 쓰는 글자가 빠질 수 있으므로 꼭 필요한 글자는 고정한다.
+    NAME_ENTRY_MUST = set('피')
+    must_base.update(NAME_ENTRY_MUST)
+    if os.environ.get('AZEL_DUMP_MUSTBASE'):
+        open('work/must_base_other.txt','w',encoding='utf-8').write(''.join(sorted(must_base)))
+    must_base.update(_ic)
+    for _c in _ic:
+        freq[_c] += 1
+    print('아이템 이름 글자 %d자 기본 폰트 강제' % len(_ic))
 
     one = list(alloc.ONE_BYTE)
     two = list(alloc.TWO_BYTE)
@@ -502,6 +516,9 @@ def build_patch():
 
     import fnt as fntmod
     srcdir = 'work/uniq'
+    import movie as _movie
+    movie_cue_targets = {r[3] for _a, _b, recs in _movie.cues(open(os.path.join(srcdir, 'MOVIE.DAT'), 'rb').read()) for r in recs}
+    movie_tail0 = 0
     fnt_sizes = {f[:-4]: len(fntmod.parse(open(os.path.join(srcdir, f), 'rb').read()))
                  for f in os.listdir(srcdir) if f.endswith('.FNT')}
     jp_of = {u[0]: u[5] for u in units}
@@ -619,12 +636,25 @@ def build_patch():
         return b
 
     patch = {}
+    _enc_args = {}
+    _over = {}
     n = 0
     blocked = 0
     clipped = 0
     fails = []
-    for uid, ko in ko_by_id.items():
+    # ★2026-11-15 색 코드 <03> 은 «다음 토큰 1개를 색 번호로 먹는다»(<03>\n = 빨강 켜기, 끝 <03> 은 종단 00 을 먹고 다음 문자열로 이어짐).
+    #   줄 맞춤 도구가 <03>\n 의 \n 을 줄바꿈으로 알고 공백으로 바꾼 자리가 12곳 있었다 → 원문과 «<03> 뒤 토큰»이 같아야 한다.
+    _inv = {v: k for k, v in id_of.items()}
+    _bad03 = []
+    for uid, ko0 in ko_by_id.items():
+        jp0 = _inv.get(uid, '')
+        if jp0 and ko0 != jp0 and _color_args(jp0) != _color_args(ko0):
+            _bad03.append('%s → %s' % (jp0[:30], ko0[:30]))
+    if _bad03:
+        raise SystemExit('⛔색 코드 <03> 뒤 토큰이 원문과 다름 %d건:\n  ' % len(_bad03) + '\n  '.join(_bad03[:20]))
+    for uid, ko0 in ko_by_id.items():
         for p in places_by_id.get(uid, ()):
+            ko = PLACE_KO.get((p[2], int(p[4], 16)), ko0)
             cmap = dict(base_map)
             cmap.update(scene_used.get(p[3], {}))
             pb = place_budget(p, uid)
@@ -640,8 +670,13 @@ def build_patch():
             except enc.Budget as e:
                 if os.environ.get('AZEL_FORCE'):
                     break          # 실험 중엔 그 자리만 건너뛴다
-                fails.append((uid, ko, pb, str(e)))
-                break
+                if p[2] + '.PRG' in CHAIN_PAD_FILES:
+                    # 이어 읽는 짝이면 두 조각 합친 범위로 다시 판정(_chain_pad) — 못 풀면 그때 실패
+                    blob = bytes(pb)
+                    _over[(p[2] + '.PRG', int(p[4], 16))] = (uid, ko, pb, str(e))
+                else:
+                    fails.append((uid, ko, pb, str(e)))
+                    break
             # ★2026-08-15 원인 절개용: `AZEL_TEXT_ONLY` 에 모듈 이름을 쉼표로 주면
             #   그 모듈에만 번역을 넣는다. 나머지는 원문 그대로 둔다.
             if _text_only is not None and p[2] not in _text_only:
@@ -655,8 +690,24 @@ def build_patch():
                 continue
             fname = {'MOVIE': 'MOVIE.DAT', 'MENUBK': 'MENUBK.BIN',
                      'COMMON': 'COMMON.DAT'}.get(p[1], p[2] + '.PRG')
+            # ★2026-11-15 하스피 «정렬»: 무비 자막은 큐가 문자열을 «절대 오프셋»으로 가리키고 렌더러가
+            #   종단자까지 토큰 수로 가운데 맞춤 → 남는 자리를 공백으로 채우면 글이 왼쪽으로 쏠린다.
+            #   큐가 가리키는 자리는 종단자 «뒤»를 0 으로 채운다(읽히지 않음).
+            if p[1] == 'MOVIE' and int(p[4], 16) in movie_cue_targets:
+                short = enc.encode(ko, cmap, None, pad=False,
+                                   allow1b=(uid not in no1b and _key not in FORCE_2BYTE_PLACES),
+                                   keep2b=(_key in KEEP_2BYTE_PLACES))
+                if len(short) <= len(blob):
+                    blob = short + bytes(1) * (len(blob) - len(short))
+                    movie_tail0 += 1
             patch.setdefault(fname, {})[int(p[4], 16)] = blob
+            _enc_args[(fname, int(p[4], 16))] = (ko, cmap, dict(
+                allow1b=(uid not in no1b and _key not in FORCE_2BYTE_PLACES),
+                pad_center=(uid in center_pad), keep2b=(_key in KEEP_2BYTE_PLACES)))
             n += 1
+    _done = _chain_pad(patch, _enc_args)
+    for _k, _v in _over.items():
+        if _k not in _done: fails.append(_v)
     if fails:
         inv = {v: k for k, v in id_of.items()}
         with open('work/fails.tsv', 'w', encoding='utf-8', newline='') as f:
@@ -674,6 +725,7 @@ def build_patch():
     if clipped:
         print('다음 문자열을 침범하던 예산 %d곳을 잘라 썼다' % clipped)
     print('인코딩 OK — 전부 원문 길이에 맞음. 교체 %d곳 / 파일 %d개' % (n, len(patch)))
+    print('무비 자막 %d곳: 채움을 종단자 뒤 0 으로(가운데 맞춤)' % movie_tail0)
     if blocked:
         print('⛔코드 자리라 제외한 배치 %d곳 (BLOCKED_PLACES)' % blocked)
 
@@ -709,32 +761,56 @@ def build_patch():
     #   A~Z·0~9 글리프는 원본 그대로 남는 칸이다.
     #   ⛔공백(0x20)은 원본 이름표에 한 번도 안 쓰였다 = 렌더 결과 미검증.
     #     쓰지 말 것(`ぎ` 로 나올 위험).
-    if os.path.exists(ITEMS_TSV):
-        _, irows = load_tsv(ITEMS_TSV)
+    if os.environ.get('AZEL_ITEMNAME_KR') == '1':
+        # ★★2026-11-15 이름 표 한글화(itemname_kr, 실험): 반각 이름 표를 «길이대로 다시 채우고» 이름 포인터를 고친다.
+        #   한글 = 기본 폰트 2바이트 토큰(80 xx), 렌더러(1ST_READ 0x060255DC)에 2바이트 통과 갈래를 동굴로 넣는다.
+        #   ⚠기본 폰트 196칸에 이름 음절(160자)을 강제하면 대사 음절이 장면 FNT 로 밀려 65개 FNT 가 넘친다 → 기본값 끔.
+        import itemname_kr
+        _cd = open(os.path.join(srcdir, 'COMMON.DAT'), 'rb').read()
+        _fr = open(os.path.join(srcdir, '1ST_READ.PRG'), 'rb').read()
+        itemname_kr.check_hook_site(_fr)
+        _ce, _fe, _ipe, _rep, _shop = itemname_kr.build(_cd, base_used, glyph=lambda _c: krglyph.glyph(font, _c))
+        patch['__IP__'] = _ipe
         cd = patch.setdefault('COMMON.DAT', {})
-        n_item = 0
-        for r in irows:
-            if len(r) < 5 or not r[4]:
-                continue
-            off, room, name = int(r[0], 16), int(r[3]), r[4]
-            bad = [c for c in name if c not in ITEM_OK]
-            if bad:
-                raise SystemExit('아이템 이름에 검증 안 된 문자 %r: %s'
-                                 % (''.join(bad), name))
-            blob = name.encode('ascii') + b'\x00'
-            if len(blob) > room:
-                raise SystemExit('아이템 이름 자리 초과 %d>%d: %s'
-                                 % (len(blob), room, name))
-            # ★바이트가 맞아도 «화면 폭»에서 잘린다 — 이름칸은 8글자다.
-            #   원본은 탁점(`ﾞ`)이 앞 글자와 합쳐져 바이트보다 짧게 그려지므로
-            #   바이트 예산만 보면 넉넉해 보인다. 실기에서 `SHELLPLATE` 가
-            #   `SHELLPLAT` 로 잘렸다(9자는 수량 `x` 에 딱 붙는다).
-            if len(name) > ITEM_WIDTH:
-                raise SystemExit('아이템 이름 화면 폭 초과 %d>%d: %s'
-                                 % (len(name), ITEM_WIDTH, name))
-            cd[off] = blob.ljust(room, b'\x00')
-            n_item += 1
-        print('아이템 이름 %d개 (반각 이름표, 폰트 변경 없음)' % n_item)
+        fr = patch.setdefault('1ST_READ.PRG', {})
+        # 가게 목록 이름(printf 반각 칸 글꼴) → 감싸기로 글리프 출력(2026-11-15 «가게물건깨짐»)
+        _sp, _srep = itemname_kr.shop_patches(srcdir, _shop)
+        _rep += ' · ' + _srep
+        _pairs = [(cd, _ce), (fr, _fe)] + [(patch.setdefault(_fn, {}), _ed) for _fn, _ed in _sp.items()]
+        for _pt, _new in _pairs:
+            for _o, _b in _new.items():
+                for _o2, _b2 in _pt.items():
+                    if _o < _o2 + len(_b2) and _o2 < _o + len(_b):
+                        raise SystemExit('⛔이름 표 쓰기가 다른 쓰기와 겹침 0x%X/0x%X' % (_o, _o2))
+                _pt[_o] = _b
+        print('아이템·버서크 이름:', _rep)
+    else:
+        if os.path.exists(ITEMS_TSV):
+            _, irows = load_tsv(ITEMS_TSV)
+            cd = patch.setdefault('COMMON.DAT', {})
+            n_item = 0
+            for r in irows:
+                if len(r) < 5 or not r[4]:
+                    continue
+                off, room, name = int(r[0], 16), int(r[3]), r[4]
+                bad = [c for c in name if c not in ITEM_OK]
+                if bad:
+                    raise SystemExit('아이템 이름에 검증 안 된 문자 %r: %s'
+                                     % (''.join(bad), name))
+                blob = name.encode('ascii') + b'\x00'
+                if len(blob) > room:
+                    raise SystemExit('아이템 이름 자리 초과 %d>%d: %s'
+                                     % (len(blob), room, name))
+                # ★바이트가 맞아도 «화면 폭»에서 잘린다 — 이름칸은 8글자다.
+                #   원본은 탁점(`ﾞ`)이 앞 글자와 합쳐져 바이트보다 짧게 그려지므로
+                #   바이트 예산만 보면 넉넉해 보인다. 실기에서 `SHELLPLATE` 가
+                #   `SHELLPLAT` 로 잘렸다(9자는 수량 `x` 에 딱 붙는다).
+                if len(name) > ITEM_WIDTH:
+                    raise SystemExit('아이템 이름 화면 폭 초과 %d>%d: %s'
+                                     % (len(name), ITEM_WIDTH, name))
+                cd[off] = blob.ljust(room, b'\x00')
+                n_item += 1
+            print('아이템 이름 %d개 (반각 이름표, 폰트 변경 없음)' % n_item)
 
     # --- 3) 겹치는 쓰기 «남았는지» 확인 -----------------------------------
     # ★예전 정책은 「겹치면 바깥만 남긴다」였는데, 그러면 안쪽 문자열이
@@ -789,6 +865,58 @@ def name_grid():
                     out.append(i)
     return out
 
+
+# ★2026-11-15 하스피 «호밍 레이저 ___는»: 전투 튜토리얼(BTL_T0)은 빨간 용어(포인터 있음) 뒤 문자열(«は…», 포인터 없음)을
+#   «앞 문자열 종단 바로 다음»에서 이어 읽는다 → 앞 문자열을 원문 길이로 맞춘 공백 패딩이 용어 뒤 빈칸으로 보였다.
+#   짝(A 끝 = B 시작, B 를 가리키는 포인터 0)은 A 를 패딩 없이 쓰고 B 를 앞으로 당겨, 남는 자리를 B 끝 패딩으로 몬다(전체 바이트 범위 그대로).
+# ★2026-11-15 같은 원문을 여러 자리가 같이 쓰는데 앞 색 용어의 받침이 달라 조사가 갈리는 자리(「という。」= 라/이라 한다).
+#   (모듈, 오프셋) → 그 자리에만 쓸 번역. 빌드·되읽기 검사가 같은 표를 쓴다.
+PLACE_KO = {
+    ('BTL_T0', 0x053E3B): '이라 한다',     # 포지셔닝
+    ('FLD_A3', 0x009B20): '이라 한다',     # 선행 입력
+    ('FLD_A7', 0x007722): '이라 한다',     # 스킬
+}
+CHAIN_PAD_FILES = ('BTL_T0.PRG', 'FLD_A3.PRG', 'FLD_A7.PRG')
+
+
+def _chain_pad(patch, args):
+    import encode as enc
+    n = 0
+    done = set()
+    for fname in CHAIN_PAD_FILES:
+        ed = patch.get(fname)
+        if not ed: continue
+        orig = open(os.path.join('work', 'uniq', fname), 'rb').read()
+        ptrs = {struct.unpack_from('>I', orig, i)[0] for i in range(0, len(orig) - 3, 2)}
+        for a in sorted(ed):
+            if a not in ed: continue
+            la = len(ed[a]); b = a + la
+            if b not in ed or 0x06054000 + b in ptrs: continue
+            if (fname, a) not in args or (fname, b) not in args: continue
+            ka, ca, kwa = args[(fname, a)]; kb, cb, kwb = args[(fname, b)]
+            short = enc.encode(ka, ca, None, pad=False, allow1b=kwa['allow1b'], keep2b=kwa['keep2b'])
+            if len(short) == la: continue          # 옮길 패딩 없음(A 가 넘치면 len(short) > la — 합친 범위로 판정)
+            total = la + len(ed[b])
+            try:
+                nb = enc.encode(kb, cb, total - len(short), allow1b=kwb['allow1b'], keep2b=kwb['keep2b'])
+            except enc.Budget:
+                continue
+            assert len(short) + len(nb) == total
+            del ed[b]
+            ed[a] = short + nb
+            done.update({(fname, a), (fname, b)})
+            n += 1
+    if n: print('   이어 읽는 짝 패딩 옮김 %d곳(%s)' % (n, ','.join(CHAIN_PAD_FILES)))
+    return done
+
+
+def _color_args(s):
+    """<03> 마다 바로 뒤 토큰(\n · <xx> · 글자 · 끝)"""
+    out = []
+    for m in re.finditer('<03>', s):
+        e = m.end(); c = s[e:e + 1]
+        out.append(s[e:e + 2] if c == chr(92) else s[e:e + 4] if c == '<' else ('TEXT' if c else 'END'))
+    return out
 
 def _sortkey(c):
     """받침 없는 음절 먼저(가갸거겨), 그 다음 받침 있는 음절, 기호는 맨 뒤."""
@@ -857,6 +985,23 @@ def main():
     ents = {p.lstrip('/'): (l, s) for p, l, s in iso.walk() if not p.endswith('/')}
     fh = open(dst, 'r+b')
     touched = set()
+    ipe = patch.pop('__IP__', None)
+    if ipe:
+        # IP.BIN = 디스크 0~15 섹터(시스템 영역). 원본 확인 후 편집, EDC/ECC 재계산
+        ip = bytearray(b''.join(iso.sector(i) for i in range(16)))
+        import itemname_kr
+        itemname_kr.check_ip(bytes(ip))
+        for off, blob in ipe.items():
+            ip[off:off + len(blob)] = blob
+        for sec in range(16):
+            fh0 = open(dst, 'r+b'); fh0.seek(sec * SECTOR); raw = bytearray(fh0.read(SECTOR))
+            chunk = bytes(ip[sec * DATA_LEN:(sec + 1) * DATA_LEN])
+            if raw[DATA_OFF:DATA_OFF + DATA_LEN] != chunk:
+                raw[DATA_OFF:DATA_OFF + DATA_LEN] = chunk
+                raw = bytearray(cdrom_ecc.recalc_sector(bytes(raw)))
+                fh0.seek(sec * SECTOR); fh0.write(bytes(raw))
+            fh0.close()
+        print('IP.BIN 갱신(크기 0x%X)' % struct.unpack_from('>I', ip, 0xE0)[0])
     for fname, edits in patch.items():
         if fname not in ents:
             print('  ★디스크에 없음:', fname)
